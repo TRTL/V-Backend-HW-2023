@@ -9,12 +9,7 @@ namespace ShipmentDiscountCalculationModule.Services
 {
     internal class FileReader : IFileReader
     {
-        readonly string _filePath;
-
-        public FileReader(string filePath)
-        {
-            _filePath = Environment.CurrentDirectory + filePath;
-        }
+        readonly string _filePath = Environment.CurrentDirectory + "\\Data\\input.txt";
 
         public string[] ReadFileLines()
         {
