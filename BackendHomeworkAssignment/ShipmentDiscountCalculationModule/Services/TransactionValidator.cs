@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ShipmentDiscountCalculationModule.Services
 {
-    public class Validator : IValidator
+    public class TransactionValidator : ITransactionValidator
     {
         public bool Validate(string inputLine)
         {
@@ -18,7 +18,8 @@ namespace ShipmentDiscountCalculationModule.Services
 
             var inputLineSplit = inputLine.Split(' ');
 
-            if (inputLineSplit.Length != 3) return false;
+            var elementsInInputLine = 3;
+            if (inputLineSplit.Length != elementsInInputLine) return false;
 
             var dateFromString = inputLineSplit[0];
             if (!DateOnly.TryParse(dateFromString, out _)) return false;

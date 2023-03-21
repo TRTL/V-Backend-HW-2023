@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ShipmentDiscountCalculationModule.Services.Interfaces
 {
-    public interface IValidator
+    public interface ITransactionValidator
     {
         bool Validate(string inputLine);
     }
