@@ -13,19 +13,17 @@ namespace ShipmentDiscountCalculationModule.Models
     {
         public Shipment() { }
 
-        public Shipment(DateOnly date, EPackageSize packageSizeCode, EProvider carrierCode, double shipmentPrice, double? shipmentDiscount)
+        public Shipment(DateOnly date, EPackageSize packageSizeCode, EProvider carrierCode)
         {
             Date = date;
             PackageSizeCode = packageSizeCode;
             CarrierCode = carrierCode;
-            ShipmentPrice = shipmentPrice;
-            ShipmentDiscount = shipmentDiscount;
         }
 
         public DateOnly Date { get; set; }
         public EPackageSize PackageSizeCode { get; set; }
         public EProvider CarrierCode { get; set; }
-        public double ShipmentPrice { get; set; }
-        public double? ShipmentDiscount { get; set; } = null;
+        public decimal? ShipmentPrice { get; set; }
+        public decimal? ShipmentDiscount { get; set; } = null;
     }
 }
