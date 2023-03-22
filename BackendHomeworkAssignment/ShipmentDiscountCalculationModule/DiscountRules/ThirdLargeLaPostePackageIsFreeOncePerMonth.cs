@@ -9,36 +9,52 @@ using System.Threading.Tasks;
 
 namespace ShipmentDiscountCalculationModule.DiscountRules
 {
-    internal class ThirdLargeLaPostePackageIsFreeOncePerMonth : IDiscountRule
+    public class ThirdLargeLaPostePackageIsFreeOncePerMonth : IDiscountRule
     {
-        private int largeLaPostePackageCountTillFree = 3;
-        private bool freeLargeLaPostePackageUsed = false;
-        private int? monthTracker;
+        private int _largeLaPostePackageCountTillFree = 3;
+        private bool _freeLargeLaPostePackageUsed = false;
+        private string? _monthTracker;
 
         public void TryApplyDiscountRule(Shipment shipment, ref decimal remainingMonthlyDiscountFund)
         {
-            // logic for L size package and LP Provider
             if (shipment.PackageSizeCode == EPackageSize.L &&
                 shipment.CarrierCode == EProvider.LP &&
                 remainingMonthlyDiscountFund > 0)
             {
-                // month tracked was never set
-                if (monthTracker == null) monthTracker = shipment.Date.Month;
+                if (WasMonthTrackerNeverSet() || IsNewMonthAcordingToMonthTracker(shipment.Date)) SetMonthTracker(shipment.Date);
 
-                // new month in transaction → reset everything to defaults and track new month
-                if (monthTracker != shipment.Date.Month) Reset(shipment.Date.Month);
+                if (_largeLaPostePackageCountTillFree > 0) _largeLaPostePackageCountTillFree--;
 
-                // counts down till free package
-                if (largeLaPostePackageCountTillFree > 0) largeLaPostePackageCountTillFree--;
-
-                if (!freeLargeLaPostePackageUsed &&
-                    largeLaPostePackageCountTillFree == 0)
+                if (!_freeLargeLaPostePackageUsed &&
+                    _largeLaPostePackageCountTillFree == 0)
                 {
-                    freeLargeLaPostePackageUsed = true;
+                    _freeLargeLaPostePackageUsed = true;
                     GetDiscountForLargeLaPostePackage(shipment, ref remainingMonthlyDiscountFund);
                 }
             }
         }
+
+        private bool WasMonthTrackerNeverSet() => _monthTracker == null;
+
+        private void SetMonthTracker(DateOnly shipmentDate)
+        {
+            _monthTracker = shipmentDate.Year.ToString() + shipmentDate.Month.ToString();
+            MonthlyDiscountReset();
+        }
+
+        private bool IsNewMonthAcordingToMonthTracker(DateOnly shipmentDate)
+        {
+            var shipmentDateYearMonth = shipmentDate.Year.ToString() + shipmentDate.Month.ToString();
+            if (_monthTracker != shipmentDateYearMonth) return true;
+            return false;
+        }
+
+        private void MonthlyDiscountReset()
+        {
+            _largeLaPostePackageCountTillFree = 3;
+            _freeLargeLaPostePackageUsed = false;
+        }
+
         private void GetDiscountForLargeLaPostePackage(Shipment shipment, ref decimal remainingMonthlyDiscountFund)
         {
             if (remainingMonthlyDiscountFund >= shipment.ShipmentPrice)
@@ -50,13 +66,6 @@ namespace ShipmentDiscountCalculationModule.DiscountRules
 
             shipment.ShipmentDiscount = remainingMonthlyDiscountFund;
             remainingMonthlyDiscountFund -= remainingMonthlyDiscountFund;
-        }
-
-        private void Reset(int newMonth)
-        {
-            largeLaPostePackageCountTillFree = 3;
-            freeLargeLaPostePackageUsed = false;
-            monthTracker = newMonth;
         }
     }
 }

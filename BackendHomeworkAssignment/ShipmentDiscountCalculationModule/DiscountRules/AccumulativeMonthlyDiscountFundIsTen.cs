@@ -8,22 +8,34 @@ using System.Threading.Tasks;
 
 namespace ShipmentDiscountCalculationModule.DiscountRules
 {
-    internal class AccumulativeMonthlyDiscountFundIsTen : IDiscountRule
+    public class AccumulativeMonthlyDiscountFundIsTen : IDiscountRule
     {
         private decimal _maxMonthlyDiscountFund = 10;
-        private int? _monthTracker;
+        private string? _monthTracker;
 
         public void TryApplyDiscountRule(Shipment shipment, ref decimal remainingMonthlyDiscountFund)
         {
-            // month tracked was never set
-            if (_monthTracker == null) _monthTracker = shipment.Date.Month;
+            if (WasMonthTrackerNeverSet()) SetMonthTracker(shipment.Date);
 
-            // new month in transaction → reset remainingMonthlyDiscountFund to default and track new month
-            if (_monthTracker != shipment.Date.Month)
+            if (IsNewMonthAcordingToMonthTracker(shipment.Date))
             {
                 remainingMonthlyDiscountFund = _maxMonthlyDiscountFund;
-                _monthTracker = shipment.Date.Month;
+                SetMonthTracker(shipment.Date);
             }
+        }
+
+        private bool WasMonthTrackerNeverSet() => _monthTracker == null;
+
+        private void SetMonthTracker(DateOnly shipmentDate)
+        {
+            _monthTracker = shipmentDate.Year.ToString() + shipmentDate.Month.ToString();
+        }
+
+        private bool IsNewMonthAcordingToMonthTracker(DateOnly shipmentDate)
+        {
+            var shipmentDateYearMonth = shipmentDate.Year.ToString() + shipmentDate.Month.ToString();
+            if (_monthTracker != shipmentDateYearMonth) return true;
+            return false;
         }
     }
 }

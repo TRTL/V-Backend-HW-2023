@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace ShipmentDiscountCalculationModule.DiscountRules
 {
-    internal class SmallPackageMatchesLowestPriceAmongProviders : IDiscountRule
+    public class SmallPackageMatchesLowestPriceAmongProviders : IDiscountRule
     {
-        private decimal lowestSmallPackagePrice;
+        private decimal _lowestSmallPackagePrice;
 
         public SmallPackageMatchesLowestPriceAmongProviders()
         {
-            lowestSmallPackagePrice = GetLowestPrice(EPackageSize.S);
+            _lowestSmallPackagePrice = GetLowestPrice(EPackageSize.S);
         }
 
         private decimal GetLowestPrice(EPackageSize packageSize)
@@ -36,12 +36,16 @@ namespace ShipmentDiscountCalculationModule.DiscountRules
 
         private void GetDiscountForSmallPackage(Shipment shipment, ref decimal remainingMonthlyDiscountFund)
         {
-            if (shipment.ShipmentPrice == lowestSmallPackagePrice) shipment.ShipmentDiscount =  null;
-
-            if (remainingMonthlyDiscountFund >= shipment.ShipmentPrice - lowestSmallPackagePrice)
+            if (shipment.ShipmentPrice == _lowestSmallPackagePrice)
             {
-                remainingMonthlyDiscountFund = remainingMonthlyDiscountFund - (shipment.ShipmentPrice.Value - lowestSmallPackagePrice);
-                shipment.ShipmentDiscount = shipment.ShipmentPrice - lowestSmallPackagePrice;
+                shipment.ShipmentDiscount =  null; 
+                return;
+            }
+
+            if (remainingMonthlyDiscountFund >= shipment.ShipmentPrice - _lowestSmallPackagePrice)
+            {
+                remainingMonthlyDiscountFund = remainingMonthlyDiscountFund - (shipment.ShipmentPrice.Value - _lowestSmallPackagePrice);
+                shipment.ShipmentDiscount = shipment.ShipmentPrice - _lowestSmallPackagePrice;
                 return;
             }
 
