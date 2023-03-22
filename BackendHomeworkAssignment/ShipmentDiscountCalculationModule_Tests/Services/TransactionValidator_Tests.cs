@@ -115,7 +115,7 @@ namespace ShipmentDiscountCalculationModule.Services_Tests
         public void Validate_WhenDateIsIncorrect3_ReturnsFalse()
         {
             // Arrange
-            var inputLine = "1999-1-A S LP";
+            var inputLine = "1999-1-B S LP";
 
             // Act
             var isValid = _validator.Validate(inputLine);
