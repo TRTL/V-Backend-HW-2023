@@ -13,16 +13,7 @@ namespace ShipmentDiscountCalculationModule
             decimal remainingMonthlyDiscountFund = 10;
 
             // Registering dependencies
-            var serviceProvider = new ServiceCollection()
-            .AddTransient<IFileReader, FileReader>()
-            .AddTransient<IFileProcessor, FileProcessor>()
-            .AddTransient<ITransactionValidator, TransactionValidator>()
-            .AddTransient<IConsoleService, ConsoleService>()
-            .AddTransient<IAdapter, Adapter>()
-            .AddTransient<ICarrierService, CarrierService>()            
-            .AddTransient<IShipmentService, ShipmentService>()
-            .AddSingleton<IDiscountRuleManager,DiscountRuleManager>()
-            .BuildServiceProvider();
+            var serviceProvider = DependencyRegistration.Register();
 
             // Resolving the dependencies
             var discountRuleManager = serviceProvider.GetService<IDiscountRuleManager>();
