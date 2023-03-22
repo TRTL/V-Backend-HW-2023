@@ -10,6 +10,11 @@ namespace ShipmentDiscountCalculationModule.Services
 {
     internal class ConsoleService : IConsoleService
     {
+        public void PrintLineInvalid(string line)
+        {
+            Console.WriteLine(line + " Ignored");
+        }
+
         public void PrintWithHyphenWhereNoDiscount(Shipment shipment)
         {
             string discount = shipment.ShipmentDiscount == null ? "-" : shipment.ShipmentDiscount.Value.ToString();

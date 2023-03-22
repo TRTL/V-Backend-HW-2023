@@ -9,6 +9,7 @@ namespace ShipmentDiscountCalculationModule.Services.Interfaces
 {
     internal interface IConsoleService
     {
+        void PrintLineInvalid(string line);
         void PrintWithHyphenWhereNoDiscount(Shipment shipment);
     }
 }
