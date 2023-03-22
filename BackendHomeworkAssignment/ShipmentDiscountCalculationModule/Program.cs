@@ -25,12 +25,11 @@ namespace ShipmentDiscountCalculationModule
             .BuildServiceProvider();
 
             // Resolving the dependencies
+            var discountRuleManager = serviceProvider.GetService<IDiscountRuleManager>();
             var fileReader = serviceProvider.GetService<IFileReader>();
             var fileProcessor = serviceProvider.GetService<IFileProcessor>();
 
-            var discountRuleManager = serviceProvider.GetService<IDiscountRuleManager>();
             discountRuleManager.AddRules(DiscountRuleSet.discountRuleList);
-
             var fileLines = fileReader.ReadFileLines();
             fileProcessor.Process(fileLines, ref remainingMonthlyDiscountFund);
         }
