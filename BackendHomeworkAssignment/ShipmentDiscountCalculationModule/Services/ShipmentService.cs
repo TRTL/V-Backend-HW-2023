@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ShipmentDiscountCalculationModule.Services
 {
-    internal class ShipmentService : IShipmentService
+    public class ShipmentService : IShipmentService
     {
         public void ApplyDiscountToPrice(Shipment shipment)
         {

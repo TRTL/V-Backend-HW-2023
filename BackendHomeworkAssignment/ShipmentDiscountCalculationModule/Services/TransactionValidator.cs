@@ -18,8 +18,8 @@ namespace ShipmentDiscountCalculationModule.Services
 
             var inputLineSplit = inputLine.Split(' ');
 
-            var elementsInInputLine = 3;
-            if (inputLineSplit.Length != elementsInInputLine) return false;
+            var allowedNumberOfElementsInInputLine = 3;
+            if (inputLineSplit.Length != allowedNumberOfElementsInInputLine) return false;
 
             var dateFromString = inputLineSplit[0];
             if (!DateOnly.TryParse(dateFromString, out _)) return false;

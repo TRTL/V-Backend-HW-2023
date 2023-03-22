@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ShipmentDiscountCalculationModule.Services
 {
-    internal class CarrierService : ICarrierService
+    public class CarrierService : ICarrierService
     {
         public void GetCarrierPrice(Shipment shipment)
         {

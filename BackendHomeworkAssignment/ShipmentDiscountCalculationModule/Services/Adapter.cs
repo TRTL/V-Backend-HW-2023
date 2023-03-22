@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ShipmentDiscountCalculationModule.Services
 {
-    internal class Adapter : IAdapter
+    public class Adapter : IAdapter
     {
         public Shipment Bind(string inputLine)
         {
