@@ -31,7 +31,7 @@ namespace ShipmentDiscountCalculationModule.Services
             _shipment = shipmentService;
         }
 
-        public void Process(string[] fileLines, ref decimal remainingMonthlyDiscountFund)
+        public void Process(string[] fileLines)
         {
 
 
@@ -48,7 +48,7 @@ namespace ShipmentDiscountCalculationModule.Services
 
                 _carrier.GetCarrierPrice(shipment);
 
-                _discountRule.TryApplyDiscountRules(shipment, ref remainingMonthlyDiscountFund);
+                _discountRule.TryApplyDiscountRules(shipment);
 
                 _shipment.ApplyDiscountToPrice(shipment);
 

@@ -8,6 +8,6 @@ namespace ShipmentDiscountCalculationModule.Services.Interfaces
 {
     internal interface IFileProcessor
     {
-        void Process(string[] fileLines, ref decimal remainingMonthlyDiscountFund);
+        void Process(string[] fileLines);
     }
 }

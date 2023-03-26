@@ -10,8 +10,6 @@ namespace ShipmentDiscountCalculationModule
     {
         static void Main(string[] args)
         {
-            decimal remainingMonthlyDiscountFund = 10;
-
             // Registering dependencies
             var serviceProvider = DependencyRegistration.Register();
 
@@ -20,9 +18,10 @@ namespace ShipmentDiscountCalculationModule
             var fileReader = serviceProvider.GetService<IFileReader>();
             var fileProcessor = serviceProvider.GetService<IFileProcessor>();
 
-            discountRuleManager.AddRules(DiscountRuleSet.discountRuleList);
+            var ruleList = DiscountRuleSet.discountRuleList;
+            discountRuleManager.AddRules(ruleList);
             var fileLines = fileReader.ReadFileLines();
-            fileProcessor.Process(fileLines, ref remainingMonthlyDiscountFund);
+            fileProcessor.Process(fileLines);
         }
     }
 }

@@ -11,6 +11,6 @@ namespace ShipmentDiscountCalculationModule.Services.Interfaces
     internal interface IDiscountRuleManager
     {
         void AddRules(List<IDiscountRule> discountRuleList);
-        void TryApplyDiscountRules(Shipment shipment, ref decimal remainingMonthlyDiscountFund);
+        void TryApplyDiscountRules(Shipment shipment);
     }
 }

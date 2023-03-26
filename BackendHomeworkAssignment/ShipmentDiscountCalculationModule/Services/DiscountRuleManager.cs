@@ -11,6 +11,8 @@ namespace ShipmentDiscountCalculationModule.Services
 {
     internal class DiscountRuleManager : IDiscountRuleManager
     {
+     decimal remainingMonthlyDiscountFund = 10;
+
         private readonly List<IDiscountRule> _discountRules = new List<IDiscountRule>();
 
         public void AddRules(List<IDiscountRule> discountRuleList)
@@ -21,12 +23,14 @@ namespace ShipmentDiscountCalculationModule.Services
             }
         }
 
-        public void TryApplyDiscountRules(Shipment shipment, ref decimal remainingMonthlyDiscountFund)
+        public void TryApplyDiscountRules(Shipment shipment)
         {
             foreach (var discountRule in _discountRules)
             {
                 discountRule.TryApplyDiscountRule(shipment, ref remainingMonthlyDiscountFund);
             }
         }
+
+
     }
 }
